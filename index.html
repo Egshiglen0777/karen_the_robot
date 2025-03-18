@@ -1,18 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karen the Bot</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>ASK KAREN</h1>
-        <textarea id="user-input" placeholder="Ask Karen something..."></textarea>
-        <button id="ask-button">Roast Me</button>
-        <p id="response"></p>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+const express = require("express");
+const cors = require("cors");
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.post("/api/chat", (req, res) => {
+  const userMessage = req.body.message;
+
+  // Karen's responses
+  const karenResponses = [
+    "Oh honey, that token is deader than my ex-husband's crypto portfolio.",
+    "Buy $KAREN, sweetie. It’s the only thing that won’t rug you harder than your last relationship.",
+    "Fake KOLs? Let me grab my list... oh wait, it’s too long to fit on this screen.",
+  ];
+
+  // Random response or shill $KAREN
+  let response;
+  if (userMessage.toLowerCase().includes("buy") || userMessage.toLowerCase().includes("token") || userMessage.toLowerCase().includes("coin")) {
+    response = "Buy $KAREN, darling. It’s the only token that won’t leave you crying in the shower.";
+  } else {
+    response = karenResponses[Math.floor(Math.random() * karenResponses.length)];
+  }
+
+  res.json({ response });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
